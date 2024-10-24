@@ -1,0 +1,175 @@
+/*  Labprogram 5a
+
+
+
+5a. Design, Develop and Implement a Program in C for the following Stack Applications
+
+	a. Evaluation of Suffix expression with single digit operands
+
+	and operators: +, -, *, /, %, ^
+
+
+
+*/
+
+
+
+//Header functions
+
+#include<stdio.h>
+
+#include<stdlib.h>
+
+#include<math.h>
+
+#include<ctype.h>
+
+
+
+
+
+//Global Variables
+
+int i, top = -1;
+
+int op1, op2, res, s[20];
+
+char postfix[90], symb;
+
+
+
+// push function defintion
+
+void push(int item)
+
+{
+
+            top = top+1;
+
+            s[top] = item;
+
+}
+
+
+
+//pop function defintion
+
+int pop()
+
+{
+
+            int item;
+
+            item  =  s[top];
+
+            top = top-1;
+
+            return item;
+
+}
+
+
+
+//main function
+
+void main()
+
+{          int resofexpon=1;
+
+            printf("\nEnter a valid Postfix Expression:\n");
+
+            scanf("%s", postfix);
+
+            for(i=0; postfix[i]!='\0'; i++)
+
+            {
+
+               symb = postfix[i];
+
+               if(isdigit(symb))
+
+               {
+
+                  push(symb - '0'); // Ascii value of zero(0) is 48
+
+               }                   // push(symb - 48) also works
+
+                        else
+
+                        {
+
+                                    op2 = pop();
+
+                                    op1 = pop();
+
+                                    switch(symb)
+
+                                    {
+
+                                                case '+':push(op1 + op2);
+
+                                                         break;
+
+                                                case '-':push(op1 - op2);
+
+                                                         break;
+
+                                                case '*':push(op1 * op2);
+
+                                                         break;
+
+                                                case '/':if(op2 == 0)
+
+                                                	     {
+
+                                                	         printf("Divide by zero error\n");
+
+                                                	         exit(0);
+
+                                                	     }
+
+                                                         else
+
+                                                         {
+
+                                                        	 push(op1 / op2);
+
+                                                             break;
+
+                                                         }
+
+                                                case '%':push(op1 % op2);
+
+                                                         break;
+
+
+
+                                                case '^': /*while (op2 != 0)
+
+                                                          {
+
+                                                   resofexpon *= op1;
+
+                                                           --op2;
+
+                                                          }
+
+                                                	push(resofexpon);*/
+
+                                               push(pow(op1, op2));
+
+                                                         break;
+
+                                               default : printf("Invalid Expression");
+
+                                                    }
+
+                        }
+
+            }
+
+            res = pop();
+
+            printf("\n Result = %d", res);
+
+}
